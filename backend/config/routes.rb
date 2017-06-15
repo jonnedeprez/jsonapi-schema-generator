@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  get '/', to: 'health#i_am_alive'
+
   post '/auth/login', to: 'auth#login'
   get '/auth/refresh', to: 'auth#refresh'
 
