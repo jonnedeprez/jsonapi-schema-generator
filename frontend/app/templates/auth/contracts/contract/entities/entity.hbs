@@ -1,1 +1,43 @@
-{{model.name}}
+<h2>{{model.name}}</h2>
+
+<h4>Attributes</h4>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#each model.fields as |field|}}
+    <tr>
+      <td>{{field.name}}</td>
+      <td>{{field.fieldType}}</td>
+      <td>{{field.required}}</td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+
+<h4>Relationships</h4>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Cardinality</th>
+    <th>Entity</th>
+    <th>Required</th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#each model.relationships as |relationship|}}
+    <tr>
+      <td>{{relationship.cardinality}}</td>
+      <td>{{relationship.dependentEntity.name}}</td>
+      <td>{{relationship.required}}</td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
