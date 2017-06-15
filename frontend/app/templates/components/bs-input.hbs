@@ -1,0 +1,34 @@
+{{#if hasBlock}}
+  {{yield this}}
+{{else}}
+  <label class={{if horizontal 'col-sm-2 col-form-label' 'form-control-label'}} for={{idInput}}>{{label}}</label>
+  {{#conditional-wrapper tagName=(if horizontal 'div' 'span') class=(if horizontal 'col-sm-10')}}
+    {{#if textarea}}
+      {{textarea id=idInput value=(mut (get changeset fieldName)) class='form-control'}}
+    {{else}}
+      {{#if password}}
+        <div class="input-group">
+          {{input id=idInput
+                  value=(mut (get changeset fieldName))
+                  type=(if showPassword 'text' 'password')
+                  class=(if hasDanger 'form-control form-control-danger' 'form-control')}}
+          <span class="input-group-btn">
+              <button class="btn btn-secondary {{if hasDanger 'btn-danger'}}" type="button" {{action (mut showPassword) (not showPassword)}}>
+                {{fa-icon (if showPassword 'eye-slash' 'eye')}}
+              </button>
+            </span>
+        </div>
+      {{else}}
+        {{input id=idInput
+                value=(mut (get changeset fieldName))
+                type='text'
+                class=(if hasDanger 'form-control form-control-danger' 'form-control')
+                placeholder=placeholder}}
+      {{/if}}
+    {{/if}}
+
+    {{#if hasDanger}}
+      <div class="form-control-feedback">{{get (get changeset.error fieldName) 'validation'}}</div>
+    {{/if}}
+  {{/conditional-wrapper}}
+{{/if}}

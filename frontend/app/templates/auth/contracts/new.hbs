@@ -1,0 +1,14 @@
+<form {{action 'submit' changeset on='submit'}}>
+  <fieldset>
+    <legend>New Service Contract</legend>
+    {{bs-input label='Client' changeset=changeset fieldName='client' horizontal=false placeholder='ex. Frontend'}}
+    {{bs-input label='Server' changeset=changeset fieldName='server' horizontal=false placeholder='ex. Backend'}}
+  </fieldset>
+
+  <div class="row">
+    <div class="col-12 text-right">
+      {{#link-to 'auth.contracts' class='btn btn-secondary mr-3'}}Cancel{{/link-to}}
+      <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+  </div>
+</form>

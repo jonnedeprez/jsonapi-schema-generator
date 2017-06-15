@@ -1,0 +1,22 @@
+<form {{action 'submit' changeset on='submit'}} class="form">
+
+  <fieldset class="form-group {{if changeset.error.username 'has-danger'}}">
+    <label for="input-username" class="form-control-label">Username</label>
+    {{input id='input-username' value=changeset.username class='form-control'}}
+    {{#if changeset.error.username}}
+      <div class="form-control-feedback">{{changeset.error.username.validation}}</div>
+    {{/if}}
+  </fieldset>
+
+  <fieldset class="form-group {{if changeset.error.password 'has-danger'}}">
+    <label for="input-password" class="form-control-label">Password</label>
+    {{input id='input-password' type='password' value=changeset.password class='form-control'}}
+    {{#if changeset.error.password}}
+      <div class="form-control-feedback">{{changeset.error.password.validation}}</div>
+    {{/if}}
+  </fieldset>
+
+  <button id='btn-login' class="btn btn-primary" type="submit">
+    Login
+  </button>
+</form>

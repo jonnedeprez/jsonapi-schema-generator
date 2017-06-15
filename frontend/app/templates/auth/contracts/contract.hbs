@@ -1,0 +1,25 @@
+<h3>Contract between {{model.client}} and {{model.server}}</h3>
+
+<div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        {{#link-to "auth.contracts.contract.entities.index" model
+                   class=(if (eq activeTab 'domainModel') 'nav-link active' 'nav-link')}}
+          Domain model
+        {{/link-to}}
+      </li>
+      <li class="nav-item">
+        {{#link-to "auth.contracts.contract.actions" model
+                   class=(if (eq activeTab 'actions') 'nav-link active' 'nav-link')}}
+          Actions
+        {{/link-to}}
+      </li>
+    </ul>
+  </div>
+  <div class="card-block text-left">
+
+    {{outlet}}
+
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Type</th>
+    <th>Name</th>
+    <th>Entity</th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#each model as |a|}}
+    <tr>
+      <td>{{a.requestType}}</td>
+      <td>{{a.name}}</td>
+      <td>{{a.entity.name}}</td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+
+{{outlet}}

@@ -1,0 +1,29 @@
+<div class="d-flex flex-wrap">
+  {{#each model as |entity|}}
+    <div class="card mr-2">
+      <div class="card-block">
+        <h4 class="card-title">
+          {{#link-to 'auth.contracts.contract.entities.entity' entity.contract entity}}{{entity.name}}{{/link-to}}
+        </h4>
+        {{#if entity.belongsToEntities}}
+          <p>Belongs to</p>
+          <ul>
+            {{#each entity.belongsToEntities as |belongsToEntity|}}
+              <li>{{belongsToEntity.name}}</li>
+            {{/each}}
+          </ul>
+        {{/if}}
+
+        {{#if entity.hasManyEntities}}
+          <p>Has many</p>
+          <ul>
+            {{#each entity.hasManyEntities as |hasManyEntity|}}
+              <li>{{pluralize hasManyEntity.name}}</li>
+            {{/each}}
+          </ul>
+
+        {{/if}}
+      </div>
+    </div>
+  {{/each}}
+</div>
