@@ -82,4 +82,4 @@ production:
   <<: *default
   database: jsonapi_sg_production
   username: jsonapi-schema-generator
-  password: <%= ENV['JSONAPI-SCHEMA-GENERATOR_DATABASE_PASSWORD'] %>
+  password: <%= ENV['JSONAPI_SG_DATABASE_PASSWORD'] %>
