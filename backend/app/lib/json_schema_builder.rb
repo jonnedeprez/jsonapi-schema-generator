@@ -29,64 +29,69 @@ class JsonSchemaBuilder
   # delete DELETE 400 Error                                                             x
   # delete DELETE 500 Error                                                             x
 
-  def initialize(action, type, status_code=nil)
+  def initialize(action, type, status_code=200)
 
     @action = action
     @type = type
     @status_code = status_code
 
-    unless (action === :show || action === :delete) && type === :request
-      unless type === :response && ([204, 403, 404].include? status_code)
-        @json = {
-            '$schema': 'http://json-schema.org/draft-04/schema#',
-            type: 'object',
-            required: %w(data),
-            properties: {
-                data: {},
-                links: {
-                    allOf: [ { '$ref': "#/definitions/links" } ]
-                },
-                jsonapi: { '$ref': "#/definitions/jsonapi" }
-            },
-            definitions: {
-                links: {
-                    type: "object",
-                    properties: {
-                        self: { type: "string", format: "uri" },
-                        related: { '$ref': "#/definitions/link" }
-                    },
-                    additionalProperties: true
-                },
-                link: {
-                    oneOf: [
-                        { type: "string", format: "uri" },
-                        {
-                            type: "object",
-                            required: [ "href" ],
-                            properties: {
-                                href: { type: "string", format: "uri" },
-                                meta: { '$ref': "#/definitions/meta" }
-                            }
-                        }
-                    ]
-                },
-                meta: {
-                    type: 'object',
-                    additionalProperties: true
-                },
-                jsonapi: {
-                    type: 'object',
-                    properties: {
-                        version: { type: 'string'},
-                        meta: { '$ref': "#/definitions/meta" }
-                    },
-                    additionalProperties: false
-                }
-            },
-            additionalProperties: false
-        }
-      end
+    if (action === :show || action === :delete) && type === :request
+      raise Exception.new('GET and DELETE have no request payload')
     end
+
+    if type === :response && (204 === status_code)
+      raise Exception.new('A request with status code 204 has no response payload')
+    end
+
+    @json = {
+        '$schema': 'http://json-schema.org/draft-04/schema#',
+        type: 'object',
+        required: %w(data),
+        properties: {
+            data: {},
+            links: {
+                allOf: [ { '$ref': "#/definitions/links" } ]
+            },
+            jsonapi: { '$ref': "#/definitions/jsonapi" }
+        },
+        definitions: {
+            links: {
+                type: "object",
+                properties: {
+                    self: { type: "string", format: "uri" },
+                    related: { '$ref': "#/definitions/link" }
+                },
+                additionalProperties: true
+            },
+            link: {
+                oneOf: [
+                    { type: "string", format: "uri" },
+                    {
+                        type: "object",
+                        required: [ "href" ],
+                        properties: {
+                            href: { type: "string", format: "uri" },
+                            meta: { '$ref': "#/definitions/meta" }
+                        }
+                    }
+                ]
+            },
+            meta: {
+                type: 'object',
+                additionalProperties: true
+            },
+            jsonapi: {
+                type: 'object',
+                properties: {
+                    version: { type: 'string'},
+                    meta: { '$ref': "#/definitions/meta" }
+                },
+                additionalProperties: false
+            }
+        },
+        additionalProperties: false
+    }
+
     self
   end
 
