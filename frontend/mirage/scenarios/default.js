@@ -19,8 +19,8 @@ export default function(server) {
   const unitEntity  = server.create('entity', { name: 'Unit', contract });
   const accountEntity = server.create('entity', { name: 'Account', contract });
 
-  server.create('action', { name: 'Read record', requestType: 'GET', contract, entity: accountEntity });
-  server.create('action', { name: 'Read array', requestType: 'GET', contract, entity: accountEntity });
+  server.create('action', { name: 'Read an account',   requestType: 'GET_RECORD', contract, entity: accountEntity });
+  server.create('action', { name: 'Read all accounts', requestType: 'GET_ARRAY', contract, entity: accountEntity });
 
   server.create('field', { name: 'name', required: true, entity: accountEntity });
   server.create('field', { name: 'name', required: true, entity: siteEntity });

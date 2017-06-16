@@ -10,4 +10,9 @@ const ContractValidations = {
   server: validatePresence({ presence: true, message: '{description} should not be blank' })
 };
 
-export { LoginValidations, ContractValidations };
+const FieldValidations = {
+  name: validatePresence({ presence: true, message: '{description} should not be blank' }),
+  fieldType: validatePresence({ presence: true, message: '{description} should not be blank' })
+};
+
+export { LoginValidations, ContractValidations, FieldValidations };

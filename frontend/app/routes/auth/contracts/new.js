@@ -6,6 +6,10 @@ import Changeset from 'ember-changeset';
 
 export default Ember.Route.extend({
 
+  breadCrumb: {
+    title: 'New service contract'
+  },
+
   model() {
     let user = this.get('sessionWrapper').get('user');
     return this.get('store').createRecord('contract', { user });

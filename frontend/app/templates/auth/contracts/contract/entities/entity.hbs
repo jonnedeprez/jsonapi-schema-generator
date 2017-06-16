@@ -11,13 +11,17 @@
   </tr>
   </thead>
   <tbody>
+
   {{#each model.fields as |field|}}
     <tr>
-      <td>{{field.name}}</td>
-      <td>{{field.fieldType}}</td>
-      <td>{{field.required}}</td>
+      {{#with (action 'updateRecord' field) as |save|}}
+        <td>{{input value=field.name focus-out=save}}</td>
+        <td>{{input value=field.fieldType focus-out=save}}</td>
+        <td><input type="checkbox" checked={{field.required}} onchange={{action (compose (action (mut field.required) (not field.required)) save)}}/></td>
+      {{/with}}
     </tr>
   {{/each}}
+
   </tbody>
 </table>
 
@@ -36,7 +40,9 @@
     <tr>
       <td>{{relationship.cardinality}}</td>
       <td>{{relationship.dependentEntity.name}}</td>
-      <td>{{relationship.required}}</td>
+      <td>
+        {{input type='checkbox' checked=relationship.required change=(action 'updateRecord' relationship)}}
+      </td>
     </tr>
   {{/each}}
   </tbody>
