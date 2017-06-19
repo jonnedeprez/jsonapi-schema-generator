@@ -48,6 +48,7 @@
     "ember-source": "~2.12.0",
     "ember-truth-helpers": "^1.3.0",
     "ember-welcome-page": "^2.0.2",
+    "emberx-select": "^3.0.1",
     "loader.js": "^4.2.3"
   },
   "engines": {

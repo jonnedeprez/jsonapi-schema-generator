@@ -15,4 +15,9 @@ const FieldValidations = {
   fieldType: validatePresence({ presence: true, message: '{description} should not be blank' })
 };
 
-export { LoginValidations, ContractValidations, FieldValidations };
+const RelationshipValidations = {
+  cardinality: validatePresence({ presence: true, message: '{description} should not be blank' }),
+  entity: validatePresence({ presence: true, message: '{description} should not be blank' })
+};
+
+export { LoginValidations, ContractValidations, FieldValidations, RelationshipValidations };
