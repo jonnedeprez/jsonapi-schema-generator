@@ -32,6 +32,9 @@ class JsonSchemaBuilder
   def initialize(action, type, status_code=200)
 
     @action = action
+
+    raise Exception.new('Unknown request type') unless [:response, :request].include? type
+
     @type = type
     @status_code = status_code
 
@@ -97,6 +100,11 @@ class JsonSchemaBuilder
 
   def with_title(title)
     @json[:title] = title
+    self
+  end
+
+  def with_description(description)
+    @json[:description] = description
     self
   end
 
