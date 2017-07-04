@@ -209,9 +209,8 @@ class JsonSchemaBuilder
         additionalProperties: false
     }
 
-    @json[:definitions][reference][:properties][:attributes] = attributes_reference unless attributes_reference.empty?
-    @json[:definitions][reference][:properties][:relationships] = relationships_reference unless relationships_reference.empty?
-
+    @json[:definitions][reference][:properties][:attributes] = { '$ref': attributes_reference } unless attributes_reference.empty?
+    @json[:definitions][reference][:properties][:relationships] = { '$ref': relationships_reference } unless relationships_reference.empty?
 
     "#/definitions/#{reference}"
   end
@@ -235,6 +234,7 @@ class JsonSchemaBuilder
   end
 
   def define_resource_attributes(entity)
+    return '' unless entity.fields.any?
     reference = entity.name.underscore + '_attributes'
     @json[:definitions][reference] ||= {
         type: 'object',

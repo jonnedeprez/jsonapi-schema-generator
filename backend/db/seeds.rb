@@ -14,7 +14,7 @@ account_entity = Entity.create(name: 'Account', contract: contract)
 site_entity    = Entity.create(name: 'Site',    contract: contract)
 plant_entity   = Entity.create(name: 'Plant',   contract: contract)
 unit_entity    = Entity.create(name: 'Unit',    contract: contract)
-service_event_entity = Entity.create(name: 'Unit',    contract: contract)
+service_event_entity = Entity.create(name: 'ServiceEvent',    contract: contract)
 
 
 Action.create(name: 'Read single account', request_type: 'get_single',     contract: contract, entity: account_entity)
