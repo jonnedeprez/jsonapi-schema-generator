@@ -250,7 +250,7 @@ class JsonSchemaBuilder
 
   def define_resource_relationships(entity)
 
-    return '' if entity.relationships
+    return '' unless entity.relationships.any?
 
     reference = entity.name.underscore + '_relationships'
 
