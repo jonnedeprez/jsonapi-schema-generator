@@ -209,8 +209,8 @@ class JsonSchemaBuilder
         additionalProperties: false
     }
 
-    @json[:definitions][reference][:properties][:attributes] = attributes_reference if attributes_reference
-    @json[:definitions][reference][:properties][:relationships] = relationships_reference if relationships_reference
+    @json[:definitions][reference][:properties][:attributes] = attributes_reference unless attributes_reference.empty?
+    @json[:definitions][reference][:properties][:relationships] = relationships_reference unless relationships_reference.empty?
 
 
     "#/definitions/#{reference}"

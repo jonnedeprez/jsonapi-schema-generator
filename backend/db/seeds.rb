@@ -14,9 +14,12 @@ account_entity = Entity.create(name: 'Account', contract: contract)
 site_entity    = Entity.create(name: 'Site',    contract: contract)
 plant_entity   = Entity.create(name: 'Plant',   contract: contract)
 unit_entity    = Entity.create(name: 'Unit',    contract: contract)
+service_event_entity = Entity.create(name: 'Unit',    contract: contract)
+
 
 Action.create(name: 'Read single account', request_type: 'get_single',     contract: contract, entity: account_entity)
 Action.create(name: 'Read account array',  request_type: 'get_collection', contract: contract, entity: account_entity)
+Action.create(name: 'Read single ServiceEvent', request_type: 'get_single',     contract: contract, entity: service_event_entity)
 
 Field.create(name: 'name',        required: true, entity: account_entity)
 Field.create(name: 'created-at',  required: false, entity: account_entity)
@@ -24,6 +27,7 @@ Field.create(name: 'updated-at',  required: false, entity: account_entity)
 Field.create(name: 'name', required: true, entity: site_entity)
 Field.create(name: 'name', required: true, entity: plant_entity)
 Field.create(name: 'name', required: true, entity: unit_entity)
+Field.create(name: 'name', required: true, entity: service_event_entity)
 
 Relationship.create(required: true, cardinality: 'BELONGS_TO', entity: plant_entity,   dependent_entity: site_entity)
 Relationship.create(required: true, cardinality: 'HAS_MANY',   entity: account_entity, dependent_entity: site_entity)
