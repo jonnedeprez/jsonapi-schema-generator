@@ -201,13 +201,17 @@ class JsonSchemaBuilder
         properties: {
             type: { type: 'string'},
             id: { type: 'string'},
-            attributes: { '$ref': attributes_reference },
-            relationships: { '$ref': relationships_reference },
+            # attributes: { '$ref': attributes_reference },
+            # relationships: { '$ref': relationships_reference },
             links: { '$ref': "#/definitions/links" },
             meta: { '$ref': "#/definitions/meta" }
         },
         additionalProperties: false
     }
+
+    @json[:definitions][reference][:properties][:attributes] = attributes_reference if attributes_reference
+    @json[:definitions][reference][:properties][:relationships] = relationships_reference if relationships_reference
+
 
     "#/definitions/#{reference}"
   end
@@ -235,17 +239,20 @@ class JsonSchemaBuilder
     @json[:definitions][reference] ||= {
         type: 'object',
         properties: Hash[entity.fields.map {|f| [f.name, {type: f.field_type}]}],
-        required: entity.fields.required.map {|f| f.name},
+        # required: entity.fields.required.map {|f| f.name},
         additionalProperties: false
     }
+
+    @json[:definitions][reference][:required] = entity.fields.required.map {|f| f.name} if entity.fields.required
 
     "#/definitions/#{reference}"
   end
 
   def define_resource_relationships(entity)
+
+    return '' if entity.relationships
+
     reference = entity.name.underscore + '_relationships'
-
-
 
     properties = entity.relationships.map do |r|
 
@@ -272,9 +279,13 @@ class JsonSchemaBuilder
     @json[:definitions][reference] ||= {
         type: 'object',
         properties: Hash[properties],
-        required: entity.relationships.required.map {|r| r.hyphenized_name},
+        # required: entity.relationships.required.map {|r| r.hyphenized_name},
         additionalProperties: false
     }
+
+    if entity.relationships.required
+      @json[:definitions][reference][:required] = entity.relationships.required.map {|r| r.hyphenized_name}
+    end
 
     "#/definitions/#{reference}"
   end

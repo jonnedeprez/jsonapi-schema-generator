@@ -1,6 +1,7 @@
 {{#if hasBlock}}
   {{yield this}}
 {{else}}
+
   <label class={{if horizontal 'col-sm-2 col-form-label' 'form-control-label'}} for={{idInput}}>{{label}}</label>
   {{#conditional-wrapper tagName=(if horizontal 'div' 'span') class=(if horizontal 'col-sm-10')}}
     {{#if textarea}}

@@ -8,24 +8,49 @@
     <th>Name</th>
     <th>Type</th>
     <th>Required</th>
+    <th>&nbsp;</th>
   </tr>
   </thead>
   <tbody>
-
   {{#each model.fields as |field|}}
-    <tr>
-      <!-- add isLoaded to make sure the changeset helper is run with a fully loaded record -->
-      {{#if field.isLoaded}}
+    <!-- add isLoaded to make sure the changeset helper is run with a fully loaded record -->
+    {{#if field.isLoaded}}
+      <tr>
         {{#with (changeset field FieldValidations skipValidate=true) as |c|}}
           {{#with (action 'submit' c) as |submit|}}
-            <td>{{input value=c.name focus-out=submit}}</td>
-            <td>{{input value=c.fieldType focus-out=submit}}</td>
-            <td><input type="checkbox" checked={{c.required}} onchange={{action (compose (action (mut c.required) (not c.required)) submit)}}/></td>
+            <td>{{input value=c.name focus-out=submit class='form-control'}}</td>
+            <td>{{input value=c.fieldType focus-out=submit class='form-control'}}</td>
+            <td>
+              <input type="checkbox" checked={{c.required}}
+                onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
+            </td>
           {{/with}}
         {{/with}}
-      {{/if}}
-    </tr>
+        <td>{{fa-icon 'close' click=(action 'removeField' field) class='cursor-pointer'}}</td>
+      </tr>
+    {{/if}}
   {{/each}}
+
+  <tr>
+    {{#with (changeset newField FieldValidations skipValidate=true) as |c|}}
+      {{#with (action 'submitNewField' c) as |submit|}}
+        <td>{{input value=(mut (get c 'name'))
+                    class='form-control'
+                    focus-out=submit
+                    placeholder='Enter field name...'}}</td>
+        <td>{{input value=(mut (get c 'fieldType'))
+                    class='form-control'
+                    focus-out=submit
+                    placeholder='Enter type...'}}</td>
+        <td>
+          <input type="checkbox" checked={{c.required}}
+            onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
+        </td>
+      {{/with}}
+      <td>&nbsp;</td>
+
+    {{/with}}
+  </tr>
 
   </tbody>
 </table>
@@ -38,6 +63,7 @@
     <th>Cardinality</th>
     <th>Entity</th>
     <th>Required</th>
+    <th>&nbsp;</th>
   </tr>
   </thead>
   <tbody>
@@ -47,14 +73,16 @@
         {{#with (changeset relationship RelationshipValidations skipValidate=true) as |c|}}
           {{#with (action 'submit' c) as |submit|}}
             <td>
-              {{#x-select value=c.cardinality action=(action (mut c.cardinality)) class="custom-select w-100" as |xs|}}
+              {{#x-select value=c.cardinality
+                          action=(pipe (action (mut c.cardinality)) submit) class="custom-select w-100" as |xs|}}
                 {{#each cardinalityOptions as |e|}}
                   {{#xs.option value=e.value}}{{e.name}}{{/xs.option}}
                 {{/each}}
               {{/x-select}}
             </td>
             <td>
-              {{#x-select value=c.dependentEntity.content action=(compose (action (mut c.dependentEntity)) submit) class="custom-select w-100" as |xs|}}
+              {{#x-select value=c.dependentEntity.content
+                          action=(pipe (action (mut c.dependentEntity)) submit) class="custom-select w-100" as |xs|}}
                 {{#each dependentEntityOptions as |e|}}
                   {{#xs.option value=e}}
                     {{#if (eq c.cardinality 'HAS_MANY')}}
@@ -66,12 +94,33 @@
                 {{/each}}
               {{/x-select}}
             </td>
-            <td><input type="checkbox" checked={{c.required}} onchange={{action (compose (action (mut c.required) (not c.required)) submit)}}/></td>
+            <td>
+              <input type="checkbox" checked={{c.required}}
+                onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
+            </td>
           {{/with}}
         {{/with}}
+
+        <td>{{fa-icon 'close' click=(action 'removeRelationship' relationship) class='cursor-pointer'}}</td>
       </tr>
     {{/if}}
-
   {{/each}}
+
+  <tr>
+    {{#with (changeset newRelationship RelationshipValidations skipValidate=true) as |c|}}
+      {{#with (action 'submitNewRelationship' c) as |submit|}}
+
+        <td></td>
+        <td></td>
+        <td>
+          <input type="checkbox" checked={{c.required}}
+            onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
+        </td>
+      {{/with}}
+      <td>&nbsp;</td>
+
+    {{/with}}
+  </tr>
+
   </tbody>
 </table>

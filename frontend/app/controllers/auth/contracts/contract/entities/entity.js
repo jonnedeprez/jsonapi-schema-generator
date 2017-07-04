@@ -3,7 +3,21 @@ import { FieldValidations, RelationshipValidations } from 'frontend/validations'
 
 import { task } from 'ember-concurrency';
 
-const { debug } = Ember;
+const { debug, RSVP } = Ember;
+
+const NewField = Ember.Object.extend({
+  save() {
+    const newField = this.get('store').createRecord('field', this.getProperties('name', 'fieldType', 'required', 'entity'));
+    return newField.save();
+  }
+});
+
+const NewRelationship = Ember.Object.extend({
+  save() {
+    const newRelationship = this.get('store').createRecord('relationship', this.getProperties('required', 'entity'));
+    return newRelationship.save();
+  }
+});
 
 export default Ember.Controller.extend({
 
@@ -24,6 +38,18 @@ export default Ember.Controller.extend({
     }
   }).keepLatest(),
 
+  resetNewField() {
+    this.set('newField', NewField.create({
+      name: '', type: '', required: false, entity: this.get('model'), store: this.get('store')
+    }));
+  },
+
+  resetNewRelationship() {
+    this.set('newRelationship', NewRelationship.create({
+      required: false, entity: this.get('model'), store: this.get('store')
+    }));
+  },
+
   actions: {
     updateRecord(record) {
       this.get('safeUpdateRecord').perform(record);
@@ -36,9 +62,32 @@ export default Ember.Controller.extend({
           changeset.rollback();
         }
       })
+    },
+    removeRelationship(relationship) {
+      return relationship.destroyRecord();
+    },
+    removeField(field) {
+      return field.destroyRecord();
+    },
+    submitNewField(changeset) {
+      changeset.validate().then(() => {
+        return changeset.get('isValid') ? changeset.save() : RSVP.resolve(false);
+      }).then(savedField => {
+        if (savedField) {
+          this.resetNewField();
+        }
+      });
+    },
+    submitNewRelationship(changeset) {
+      changeset.validate().then(() => {
+        return changeset.get('isValid') ? changeset.save() : RSVP.resolve(false);
+      }).then(savedRelationship => {
+        if (savedRelationship) {
+          this.resetNewRelationship();
+        }
+      });
     }
-  },
-
+  }
 
 
 });

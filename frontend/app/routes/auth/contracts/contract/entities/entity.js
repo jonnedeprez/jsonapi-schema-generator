@@ -12,6 +12,9 @@ export default Ember.Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
     this.get('store').findAll('entity').then(entities => controller.set('dependentEntityOptions', entities));
+
+    controller.resetNewField();
+    controller.resetNewRelationship();
   },
 
   afterModel(model) {
