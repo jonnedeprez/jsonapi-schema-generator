@@ -17,3 +17,5 @@ tmp/*
 .idea
 .ruby-version
 .ruby-gemset
+
+.jsonapi-schema-generator.env
