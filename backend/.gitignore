@@ -19,3 +19,5 @@ tmp/*
 .ruby-gemset
 
 .jsonapi-schema-generator.env
+
+Gemfile.lock
