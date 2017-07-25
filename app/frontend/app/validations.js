@@ -10,6 +10,10 @@ const ContractValidations = {
   server: validatePresence({ presence: true, message: '{description} should not be blank' })
 };
 
+const EntityValidations = {
+  name: validatePresence({ presence: true, message: '{description} should not be blank' })
+};
+
 const FieldValidations = {
   name: validatePresence({ presence: true, message: '{description} should not be blank' }),
   fieldType: validatePresence({ presence: true, message: '{description} should not be blank' })
@@ -17,7 +21,8 @@ const FieldValidations = {
 
 const RelationshipValidations = {
   cardinality: validatePresence({ presence: true, message: '{description} should not be blank' }),
-  entity: validatePresence({ presence: true, message: '{description} should not be blank' })
+  entity: validatePresence({ presence: true, message: '{description} should not be blank' }),
+  dependentEntity: validatePresence({ presence: true, message: '{description} should not be blank' })
 };
 
-export { LoginValidations, ContractValidations, FieldValidations, RelationshipValidations };
+export { LoginValidations, ContractValidations, EntityValidations, FieldValidations, RelationshipValidations };

@@ -1,14 +1,18 @@
 <div class="row">
   <div class="col-md-3">
     <div class="list-group">
-      {{#link-to 'auth.contracts.new' class='list-group-item list-group-item-action list-group-item-success'}}New service contract...{{/link-to}}
+      {{#link-to 'auth.contracts.new' class='list-group-item list-group-item-action list-group-item-success mb-2'}}
+        New service contract...
+      {{/link-to}}
 
       {{#each model as |contract|}}
-        {{#link-to "auth.contracts.contract" contract class='list-group-item list-group-item-action'}}{{contract.client}} to {{contract.server}}{{/link-to}}
+        {{#link-to "auth.contracts.contract" contract class='list-group-item list-group-item-action'}}
+          {{contract.client}} to {{contract.server}}
+        {{/link-to}}
       {{/each}}
-    </div>
-
+     </div>
   </div>
+
   <div class="col-md-9">
     {{outlet}}
   </div>

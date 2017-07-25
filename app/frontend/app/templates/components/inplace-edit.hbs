@@ -1,0 +1,21 @@
+{{#if isEditing}}
+
+  {{input value=internalValue
+          autofocus=true
+          class='form-control'
+          focus-out=(action 'save')
+          enter=(action 'save')
+          escape-press=(action (
+            pipe
+              (action (mut isEditing) false)
+              (action (mut internalValue) value)
+            )
+          )}}
+
+{{else}}
+
+  <span {{action (mut isEditing) true}} class="cursor-pointer">
+    {{value}}
+  </span>
+
+{{/if}}

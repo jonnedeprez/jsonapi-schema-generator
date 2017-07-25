@@ -1,29 +1,33 @@
-<h2>{{model.name}}</h2>
+<h2>{{fa-icon 'database' class='mr-4'}}
+{{#with (changeset model EntityValidations skipValidate=true) as |c|}}
+  {{inplace-edit value=c.name save=(action 'submit' c)}}
+{{/with}}
+</h2>
 
 <h4>Attributes</h4>
 
 <table class="table">
   <thead>
   <tr>
-    <th>Name</th>
+    <th width="12%">Required</th>
+    <th width="40%">Name</th>
     <th>Type</th>
-    <th>Required</th>
-    <th>&nbsp;</th>
+    <th width="8%">&nbsp;</th>
   </tr>
   </thead>
   <tbody>
-  {{#each model.fields as |field|}}
+  {{#each model.fields as |field i|}}
     <!-- add isLoaded to make sure the changeset helper is run with a fully loaded record -->
     {{#if field.isLoaded}}
       <tr>
         {{#with (changeset field FieldValidations skipValidate=true) as |c|}}
           {{#with (action 'submit' c) as |submit|}}
-            <td>{{input value=c.name focus-out=submit class='form-control'}}</td>
-            <td>{{input value=c.fieldType focus-out=submit class='form-control'}}</td>
             <td>
               <input type="checkbox" checked={{c.required}}
-                onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
+                onchange={{action (pipe (toggle 'required' c) submit)}}/>
             </td>
+            <td>{{input value=c.name focus-out=submit class='form-control'}}</td>
+            <td>{{input value=c.fieldType focus-out=submit class='form-control'}}</td>
           {{/with}}
         {{/with}}
         <td>{{fa-icon 'close' click=(action 'removeField' field) class='cursor-pointer'}}</td>
@@ -34,18 +38,18 @@
   <tr>
     {{#with (changeset newField FieldValidations skipValidate=true) as |c|}}
       {{#with (action 'submitNewField' c) as |submit|}}
+        <td>
+          <input type="checkbox" checked={{c.required}}
+            onchange={{action (pipe (toggle 'required' c) submit)}}/>
+        </td>
         <td>{{input value=(mut (get c 'name'))
                     class='form-control'
                     focus-out=submit
-                    placeholder='Enter field name...'}}</td>
+                    placeholder='Enter field name...' autofocus=true}}</td>
         <td>{{input value=(mut (get c 'fieldType'))
                     class='form-control'
                     focus-out=submit
                     placeholder='Enter type...'}}</td>
-        <td>
-          <input type="checkbox" checked={{c.required}}
-            onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
-        </td>
       {{/with}}
       <td>&nbsp;</td>
 
@@ -60,10 +64,10 @@
 <table class="table">
   <thead>
   <tr>
-    <th>Cardinality</th>
+    <th width="12%">Required</th>
+    <th width="40%">Cardinality</th>
     <th>Entity</th>
-    <th>Required</th>
-    <th>&nbsp;</th>
+    <th width="8%">&nbsp;</th>
   </tr>
   </thead>
   <tbody>
@@ -72,6 +76,10 @@
       <tr>
         {{#with (changeset relationship RelationshipValidations skipValidate=true) as |c|}}
           {{#with (action 'submit' c) as |submit|}}
+            <td>
+              <input type="checkbox" checked={{c.required}}
+                onchange={{action (pipe (toggle 'required' c) submit)}}/>
+            </td>
             <td>
               {{#x-select value=c.cardinality
                           action=(pipe (action (mut c.cardinality)) submit) class="custom-select w-100" as |xs|}}
@@ -94,10 +102,6 @@
                 {{/each}}
               {{/x-select}}
             </td>
-            <td>
-              <input type="checkbox" checked={{c.required}}
-                onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
-            </td>
           {{/with}}
         {{/with}}
 
@@ -109,12 +113,33 @@
   <tr>
     {{#with (changeset newRelationship RelationshipValidations skipValidate=true) as |c|}}
       {{#with (action 'submitNewRelationship' c) as |submit|}}
-
-        <td></td>
-        <td></td>
         <td>
           <input type="checkbox" checked={{c.required}}
-            onchange={{action (pipe (action (mut c.required) (not c.required)) submit)}}/>
+            onchange={{action (pipe (toggle 'required' c) submit)}}/>
+        </td>
+        <td>
+          {{#x-select value=c.cardinality
+                      action=(pipe (action (mut c.cardinality)) submit) class="custom-select w-100" as |xs|}}
+            {{#xs.option value=null}}Please select{{/xs.option}}
+            {{#each cardinalityOptions as |e|}}
+              {{#xs.option value=e.value}}{{e.name}}{{/xs.option}}
+            {{/each}}
+          {{/x-select}}
+        </td>
+        <td>
+          {{#x-select value=c.dependentEntity
+                      action=(pipe (action (mut c.dependentEntity)) submit) class="custom-select w-100" as |xs|}}
+            {{#xs.option value=null}}Please select{{/xs.option}}
+            {{#each dependentEntityOptions as |e|}}
+              {{#xs.option value=e}}
+                {{#if (eq c.cardinality 'HAS_MANY')}}
+                  {{pluralize e.name}}
+                {{else}}
+                  {{e.name}}
+                {{/if}}
+              {{/xs.option}}
+            {{/each}}
+          {{/x-select}}
         </td>
       {{/with}}
       <td>&nbsp;</td>

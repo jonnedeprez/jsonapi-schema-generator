@@ -1,10 +1,13 @@
 <div class="d-flex flex-wrap">
   {{#each model as |entity|}}
-    <div class="card mr-2">
+    <div class="card mr-2 mb-2 entity-card">
+      <div class="card-header d-flex justify-content-between">
+        {{#link-to 'auth.contracts.contract.entities.entity' entity.contract entity}}{{fa-icon 'database' class='mr-2'}}{{entity.name}}{{/link-to}}
+        <button type="button" class="close" aria-label="Close" {{action 'removeEntity' entity}}>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="card-block">
-        <h4 class="card-title">
-          {{#link-to 'auth.contracts.contract.entities.entity' entity.contract entity}}{{entity.name}}{{/link-to}}
-        </h4>
         {{#if entity.belongsToEntities}}
           <p>Belongs to</p>
           <ul>
@@ -26,4 +29,7 @@
       </div>
     </div>
   {{/each}}
+  <div class="card mr-2 mb-2 d-flex flex-column justify-content-center align-items-center entity-card">
+    {{fa-icon 'plus-circle' size=3 class='text-muted cursor-pointer' click=(action 'addEntity')}}
+  </div>
 </div>
