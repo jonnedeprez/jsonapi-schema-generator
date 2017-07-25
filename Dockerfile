@@ -11,7 +11,7 @@ WORKDIR /jsonapi-schema-generator
 
 ADD . /jsonapi-schema-generator
 
-RUN cd app/frontend && npm i && bower i --allow-root && ./node_modules/ember-cli/bin/ember build --environment=production && mv -f ./dist/* /jsonapi-schema-generator/public
+RUN cd app/frontend && npm i && bower i --allow-root && npm rebuild node-sass . && ./node_modules/ember-cli/bin/ember build --environment=production && mv -f ./dist/* /jsonapi-schema-generator/public
 
 RUN bundle install
 
