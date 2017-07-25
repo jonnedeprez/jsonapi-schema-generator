@@ -1,14 +1,15 @@
 jsonapi-schema-generator:
   build: .
   command: bash -c "bundle exec rake db:migrate && bundle exec puma -C config/puma.rb"
-
-  volumes:
-    - ./log:/jsonapi-schema-generator/log
-    - ./config:/jsonapi-schema-generator/config
+#  volumes:
+#    - ./log:/jsonapi-schema-generator/log
+#    - ./config:/jsonapi-schema-generator/config
   ports:
-    - '3000:3000'
+    - '80:3000'
   env_file:
     - .jsonapi-schema-generator.env
-
-  extra_hosts:
-   - "dockerhost:192.168.1.19"
+  logging:
+    driver: awslogs
+    options:
+      awslogs-region: eu-central-1
+      awslogs-group: jsonapi-schema-generator
