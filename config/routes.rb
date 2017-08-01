@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     jsonapi_resources :actions
     jsonapi_resources :entities
     jsonapi_resources :fields
+    jsonapi_resources :relationships
   end
 
   root to: 'frontend#index'
