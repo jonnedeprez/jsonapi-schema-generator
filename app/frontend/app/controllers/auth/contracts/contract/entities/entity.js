@@ -14,7 +14,7 @@ const NewField = Ember.Object.extend({
 
 const NewRelationship = Ember.Object.extend({
   save() {
-    const newRelationship = this.get('store').createRecord('relationship', this.getProperties('required', 'entity', 'dependentEntity'));
+    const newRelationship = this.get('store').createRecord('relationship', this.getProperties('required', 'cardinality', 'entity', 'dependentEntity'));
     return newRelationship.save();
   }
 });
