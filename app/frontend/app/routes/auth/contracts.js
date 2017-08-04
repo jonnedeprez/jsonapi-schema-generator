@@ -5,8 +5,9 @@ export default Ember.Route.extend({
   breadCrumb: null,
 
   model() {
-    const user = this.get('sessionWrapper').get('user');
-    return user.get('contracts');
+    return this.get('sessionWrapper')
+      .loadCurrentUser()
+      .then(user => user ? user.get('contracts') : []);
   }
 
 });

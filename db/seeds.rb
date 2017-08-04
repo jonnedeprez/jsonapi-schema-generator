@@ -10,10 +10,10 @@ user = User.create(name: 'Admin', username: 'admin', password: 'admin', admin: t
 
 contract = Contract.create(client: 'Frontend', server: 'Backend', user: user)
 
-account_entity = Entity.create(name: 'Account', contract: contract)
-site_entity    = Entity.create(name: 'Site',    contract: contract)
-plant_entity   = Entity.create(name: 'Plant',   contract: contract)
-unit_entity    = Entity.create(name: 'Unit',    contract: contract)
+account_entity       = Entity.create(name: 'Account', contract: contract)
+site_entity          = Entity.create(name: 'Site',    contract: contract)
+plant_entity         = Entity.create(name: 'Plant',   contract: contract)
+unit_entity          = Entity.create(name: 'Unit',    contract: contract)
 service_event_entity = Entity.create(name: 'ServiceEvent',    contract: contract)
 
 

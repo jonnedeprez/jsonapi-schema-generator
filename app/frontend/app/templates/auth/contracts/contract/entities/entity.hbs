@@ -30,7 +30,7 @@
             <td>{{input value=c.fieldType focus-out=submit class='form-control'}}</td>
           {{/with}}
         {{/with}}
-        <td>{{fa-icon 'close' click=(action 'removeField' field) class='cursor-pointer'}}</td>
+        <td>{{fa-icon 'close' click=(action 'destroyRecord' field) class='cursor-pointer'}}</td>
       </tr>
     {{/if}}
   {{/each}}
@@ -105,7 +105,7 @@
           {{/with}}
         {{/with}}
 
-        <td>{{fa-icon 'close' click=(action 'removeRelationship' relationship) class='cursor-pointer'}}</td>
+        <td>{{fa-icon 'close' click=(action 'destroyRecord' relationship) class='cursor-pointer'}}</td>
       </tr>
     {{/if}}
   {{/each}}
@@ -146,6 +146,52 @@
 
     {{/with}}
   </tr>
+
+  </tbody>
+</table>
+
+<h4>Actions</h4>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Type</th>
+    <th>Name</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#each model.actions as |a|}}
+    <tr>
+      <td>{{humanize a.requestType}}</td>
+      <td>{{a.name}}</td>
+      <td>{{fa-icon 'close' click=(action 'destroyRecord' a) class='cursor-pointer'}}</td>
+    </tr>
+  {{/each}}
+
+  {{#with (changeset newAction ActionValidations skipValidate=true) as |c|}}
+    {{#with (action 'submitNewAction' c) as |submit|}}
+      <td>
+        {{#x-select value=c.requestType
+                    action=(pipe (action (mut c.requestType)) submit) class="custom-select w-100" as |xs|}}
+          {{#xs.option value=null}}Please select{{/xs.option}}
+          {{#xs.option value='get_single'}}Get single{{/xs.option}}
+          {{#xs.option value='get_collection'}}Get collection{{/xs.option}}
+          {{#xs.option value='create'}}Create{{/xs.option}}
+          {{#xs.option value='update'}}Update{{/xs.option}}
+          {{#xs.option value='delete'}}Delete{{/xs.option}}
+        {{/x-select}}
+      </td>
+      <td>
+        {{input value=(mut (get c 'name'))
+                class='form-control'
+                focus-out=submit
+                placeholder='Enter action name...' autofocus=true}}
+      </td>
+    {{/with}}
+    <td>&nbsp;</td>
+
+  {{/with}}
 
   </tbody>
 </table>

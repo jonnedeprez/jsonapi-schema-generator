@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { EntityValidations, FieldValidations, RelationshipValidations } from 'frontend/validations';
+import { EntityValidations, FieldValidations, RelationshipValidations, ActionValidations } from 'frontend/validations';
 
 import { task } from 'ember-concurrency';
 
@@ -19,11 +19,21 @@ const NewRelationship = Ember.Object.extend({
   }
 });
 
+const NewAction = Ember.Object.extend({
+  save() {
+    const newAction = this.get('store').createRecord('action', this.getProperties('entity', 'name', 'requestType', 'contract'));
+    return newAction.save();
+  }
+});
+
 export default Ember.Controller.extend({
 
   EntityValidations,
   FieldValidations,
   RelationshipValidations,
+  ActionValidations,
+
+  contract: null,
 
   cardinalityOptions: [{ value: 'HAS_MANY', name: 'Has many' }, { value: 'BELONGS_TO', name: 'Belongs to' }],
 
@@ -53,14 +63,13 @@ export default Ember.Controller.extend({
     }));
   },
 
+  resetNewAction() {
+    this.set('newAction', NewAction.create({
+      contract: this.get('contract'), entity: this.get('model'), store: this.get('store'), name: null, requestType: null
+    }));
+  },
+
   actions: {
-    editName() {
-
-    },
-
-    updateRecord(record) {
-      this.get('safeUpdateRecord').perform(record);
-    },
 
     submit(changeset) {
       changeset.validate().then(() => {
@@ -72,12 +81,8 @@ export default Ember.Controller.extend({
       })
     },
 
-    removeRelationship(relationship) {
-      return relationship.destroyRecord();
-    },
-
-    removeField(field) {
-      return field.destroyRecord();
+    destroyRecord(record) {
+      return record.destroyRecord();
     },
 
     submitNewField(changeset) {
@@ -96,6 +101,16 @@ export default Ember.Controller.extend({
       }).then(savedRelationship => {
         if (savedRelationship) {
           this.resetNewRelationship();
+        }
+      });
+    },
+
+    submitNewAction(changeset) {
+      changeset.validate().then(() => {
+        return changeset.get('isValid') ? changeset.save() : RSVP.resolve(false);
+      }).then(savedAction => {
+        if (savedAction) {
+          this.resetNewAction();
         }
       });
     }
