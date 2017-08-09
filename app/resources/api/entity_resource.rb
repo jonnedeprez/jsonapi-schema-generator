@@ -5,7 +5,7 @@ class Api::EntityResource < Api::BaseResource
   has_many :fields
   has_many :actions
   has_many :relationships, always_include_linkage_data: true
-  has_many :source_relationships
+  has_many :source_relationships, always_include_linkage_data: true
 
 
 end

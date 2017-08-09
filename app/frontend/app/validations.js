@@ -25,4 +25,12 @@ const RelationshipValidations = {
   dependentEntity: validatePresence({ presence: true, message: '{description} should not be blank' })
 };
 
-export { LoginValidations, ContractValidations, EntityValidations, FieldValidations, RelationshipValidations };
+const ActionValidations = {
+  contract: validatePresence({ presence: true, message: '{description} should not be blank' }),
+  entity: validatePresence({ presence: true, message: '{description} should not be blank' }),
+  name: validatePresence({ presence: true, message: '{description} should not be blank' }),
+  requestType: validatePresence({ presence: true, message: '{description} should not be blank' })
+};
+
+export { LoginValidations, ContractValidations, EntityValidations, FieldValidations, RelationshipValidations,
+  ActionValidations };

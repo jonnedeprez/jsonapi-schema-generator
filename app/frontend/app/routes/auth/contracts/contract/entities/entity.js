@@ -11,10 +11,12 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
+    controller.set('contract', this.modelFor('auth.contracts.contract'));
     this.get('store').findAll('entity').then(entities => controller.set('dependentEntityOptions', entities));
 
     controller.resetNewField();
     controller.resetNewRelationship();
+    controller.resetNewAction();
   },
 
   afterModel(model) {

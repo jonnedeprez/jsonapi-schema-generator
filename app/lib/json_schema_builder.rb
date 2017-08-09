@@ -29,6 +29,8 @@ class JsonSchemaBuilder
   # delete DELETE 400 Error                                                             x
   # delete DELETE 500 Error                                                             x
 
+  # action
+  # * one of :create, :delete, :update, :get_single, :get_collection
   def initialize(action, type, status_code=200)
 
     @action = action
@@ -38,7 +40,7 @@ class JsonSchemaBuilder
     @type = type
     @status_code = status_code
 
-    if (action === :show || action === :delete) && type === :request
+    if (action === :get_single || action === :get_collection || action === :delete) && type === :request
       raise Exception.new('GET and DELETE have no request payload')
     end
 

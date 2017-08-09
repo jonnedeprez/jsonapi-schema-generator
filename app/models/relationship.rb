@@ -1,7 +1,7 @@
 class Relationship < ApplicationRecord
 
-  belongs_to :entity
-  belongs_to :dependent_entity, class_name: 'Entity', foreign_key: 'dependent_entity_id', inverse_of: :source_relationships
+  belongs_to :entity, foreign_key: :entity_id, inverse_of: :relationships
+  belongs_to :dependent_entity, class_name: 'Entity', foreign_key: :dependent_entity_id, inverse_of: :source_relationships
 
   scope :required, -> { where required: true }
 
