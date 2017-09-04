@@ -1,6 +1,4 @@
-@import "variables";
-@import "bootstrap";
-@import "bootswatch";
+@import "ember-bootstrap/bootstrap";
 
 .cursor-pointer {
   cursor: pointer;
@@ -10,3 +8,5 @@
   width: 22%;
   height: 250px;
 }
+
+

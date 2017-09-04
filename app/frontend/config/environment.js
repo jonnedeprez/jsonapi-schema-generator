@@ -34,6 +34,11 @@ module.exports = function(environment) {
       serverTokenEndpoint: '/auth/login',
       serverTokenRefreshEndpoint: '/auth/refresh'
     },
+    'ember-bootstrap': {
+      'bootstrapVersion': 4,
+      'importBootstrapFont': false,
+      'importBootstrapCSS': false
+    }
   };
 
   if (environment === 'development') {

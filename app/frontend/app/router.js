@@ -22,6 +22,8 @@ Router.map(function() {
   });
 
   this.route('login');
+
+  this.route('unknown', { path: '/*'});
 });
 
 export default Router;

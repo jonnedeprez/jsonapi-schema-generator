@@ -42,6 +42,11 @@ module.exports = function(defaults) {
         'Android >= 4',
         'Opera >= 12'
       ]
+    },
+
+    'ember-bootstrap': {
+      bootstrapVersion: 4
+
     }
   };
 
@@ -78,10 +83,6 @@ module.exports = function(defaults) {
 
 
   let app = new EmberApp(defaults, config);
-
-  app.import('bower_components/tether/dist/css/tether.css');
-  app.import('bower_components/tether/dist/js/tether.js');
-  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 
   return app.toTree();
 };

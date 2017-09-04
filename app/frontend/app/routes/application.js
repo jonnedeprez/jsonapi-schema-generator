@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-const { service } = Ember.inject;
+
+const { inject: { service }, isArray } = Ember;
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   routeAfterAuthentication: 'auth.index',
@@ -20,5 +21,13 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   _loadCurrentUser() {
     return this.get('sessionWrapper').loadCurrentUser();
   },
+
+  actions: {
+    error(error/*, transition*/) {
+      if (error.isAdapterError && isArray(error.errors) && error.errors.length > 0 && error.errors[0].status === '404') {
+        this.transitionTo('unknown');
+      }
+    }
+  }
 
 });
