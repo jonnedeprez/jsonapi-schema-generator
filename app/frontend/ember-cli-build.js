@@ -24,7 +24,6 @@ module.exports = function(defaults) {
     hinting: process.env.EMBER_CLI_TEST_COMMAND || !isProductionLikeBuild,
 
     sassOptions: {
-      includePaths: ['bower_components/bootstrap/scss'],
       sourceMapEmbed: true
     },
 
