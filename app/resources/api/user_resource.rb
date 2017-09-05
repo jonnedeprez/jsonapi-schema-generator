@@ -7,7 +7,7 @@ class Api::UserResource < Api::BaseResource
     super - [:password]
   end
 
-  def self.updateable_fields(context)
+  def self.updatable_fields(context)
     context[:user].admin? ? super : super - [:admin]
   end
 

@@ -1,0 +1,32 @@
+{{#with (changeset relationship RelationshipValidations skipValidate=true) as |c|}}
+
+  <td>
+    <input type="checkbox" checked={{c.required}}
+      onchange={{action (pipe (toggle 'required' c) submit)}}/>
+  </td>
+  <td>
+    {{#x-select value=c.cardinality
+                action=(pipe (action (mut c.cardinality)) submit) class="custom-select w-100" as |xs|}}
+      {{#each cardinalityOptions as |e|}}
+        {{#xs.option value=e.value}}{{e.name}}{{/xs.option}}
+      {{/each}}
+    {{/x-select}}
+  </td>
+  <td>
+    {{#x-select value=c.dependentEntity.content
+                action=(pipe (action (mut c.dependentEntity)) submit) class="custom-select w-100" as |xs|}}
+      {{#each dependentEntityOptions as |e|}}
+        {{#xs.option value=e}}
+          {{#if (eq c.cardinality 'HAS_MANY')}}
+            {{pluralize e.name}}
+          {{else}}
+            {{e.name}}
+          {{/if}}
+        {{/xs.option}}
+      {{/each}}
+    {{/x-select}}
+  </td>
+
+{{/with}}
+
+<td>{{fa-icon 'close' click=(action 'destroyRecord') class='cursor-pointer'}}</td>

@@ -35,6 +35,8 @@ export default Ember.Controller.extend({
 
   contract: null,
 
+  dependentEntityOptions: [],
+
   cardinalityOptions: [{ value: 'HAS_MANY', name: 'Has many' }, { value: 'BELONGS_TO', name: 'Belongs to' }],
 
   required: true,
