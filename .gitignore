@@ -20,4 +20,3 @@ tmp/*
 
 .jsonapi-schema-generator.env
 
-Gemfile.lock
