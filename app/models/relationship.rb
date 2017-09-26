@@ -6,6 +6,8 @@ class Relationship < ApplicationRecord
   scope :required, -> { where required: true }
 
   def hyphenized_name
+    return name if name
+
     relationship_name = dependent_entity.name
     if is_plural?
       relationship_name = relationship_name.pluralize

@@ -8,20 +8,33 @@
         </button>
       </div>
       <div class="card-block">
-        {{#if entity.belongsToEntities}}
+        {{#if entity.belongsToRelationships}}
           <p>Belongs to</p>
           <ul>
-            {{#each entity.belongsToEntities as |belongsToEntity|}}
-              <li>{{belongsToEntity.name}}</li>
+            {{#each entity.belongsToRelationships as |relationship|}}
+              <li>
+                {{#if relationship.name}}
+                  {{humanize relationship.name}}
+                {{else}}
+                  {{relationship.dependentEntity.name}}
+                {{/if}}
+              </li>
             {{/each}}
           </ul>
         {{/if}}
 
-        {{#if entity.hasManyEntities}}
+
+        {{#if entity.hasManyRelationships}}
           <p>Has many</p>
           <ul>
-            {{#each entity.hasManyEntities as |hasManyEntity|}}
-              <li>{{pluralize hasManyEntity.name}}</li>
+            {{#each entity.hasManyRelationships as |relationship|}}
+              <li>
+                {{#if relationship.name}}
+                  {{humanize relationship.name}}
+                {{else}}
+                  {{pluralize relationship.dependentEntity.name}}
+                {{/if}}
+              </li>
             {{/each}}
           </ul>
 

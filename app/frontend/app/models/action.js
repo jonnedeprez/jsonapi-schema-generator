@@ -2,9 +2,10 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
-  contract: DS.belongsTo('contract'),
   requestType: DS.attr('string'),
 
-  entity: DS.belongsTo('entity'),
+  entity: DS.belongsTo('entity', { inverse: 'actions' }),
+  contract: DS.belongsTo('contract'),
+  includedEntities: DS.hasMany('entity', { inverse: 'includedInActions', async: false })
 
 });

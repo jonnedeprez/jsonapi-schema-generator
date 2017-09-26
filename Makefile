@@ -11,7 +11,7 @@ NULLCMD = :
 
 #### Start of system configuration section. ####
 
-srcdir = .
+srcdir = /home/jonne/Development/jsonapi-schema-generator/bin
 topdir = /home/jonne/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0
 hdrdir = $(topdir)
 arch_hdrdir = /home/jonne/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-linux

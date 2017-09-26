@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612123358) do
+ActiveRecord::Schema.define(version: 20170921145846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(version: 20170612123358) do
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_actions_on_contract_id"
     t.index ["entity_id"], name: "index_actions_on_entity_id"
+  end
+
+  create_table "actions_entities", id: false, force: :cascade do |t|
+    t.bigint "action_id", null: false
+    t.bigint "entity_id", null: false
+    t.index ["action_id"], name: "index_actions_entities_on_action_id"
+    t.index ["entity_id"], name: "index_actions_entities_on_entity_id"
   end
 
   create_table "contracts", force: :cascade do |t|
@@ -62,6 +69,7 @@ ActiveRecord::Schema.define(version: 20170612123358) do
     t.boolean "required", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["dependent_entity_id"], name: "index_relationships_on_dependent_entity_id"
     t.index ["entity_id"], name: "index_relationships_on_entity_id"
   end

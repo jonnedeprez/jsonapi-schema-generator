@@ -1,0 +1,49 @@
+{{#if c}}
+  {{#with (action 'submit' c) as |submit|}}
+    <td>
+      {{#x-select value=c.requestType
+                  action=(pipe (action (mut c.requestType)) submit) class="form-control form-control-sm" as |xs|}}
+        {{#xs.option value='get_single'}}Get single{{/xs.option}}
+        {{#xs.option value='get_collection'}}Get collection{{/xs.option}}
+        {{#xs.option value='create'}}Create{{/xs.option}}
+        {{#xs.option value='update'}}Update{{/xs.option}}
+        {{#xs.option value='delete'}}Delete{{/xs.option}}
+      {{/x-select}}
+    </td>
+    <td>{{input value=c.name
+                placeholder='Enter name...'
+                focus-out=submit
+                class='form-control form-control-sm'}}</td>
+    <td>
+      {{#unless (or (eq c.requestType 'create') (eq c.requestType 'delete'))}}
+        {{#each c.includedEntities as |entity|}}
+          <span class="badge badge-default">
+          {{pluralize entity.name}}
+            {{fa-icon 'close' click=(pipe (action 'removeIncludedEntity' entity) submit)}}
+        </span>
+        {{/each}}
+
+        {{#if sortedAvailableEntitiesNotAddedToChangeset}}
+          {{#bs-dropdown class='mr-2' as |dd|}}
+            {{#dd.button size='sm'}}
+              {{fa-icon 'plus'}}
+              <span class="caret"></span>
+            {{/dd.button}}
+
+            {{#dd.menu as |ddm|}}
+              {{#each sortedAvailableEntitiesNotAddedToChangeset as |entity|}}
+                {{#ddm.item}}
+                  <button class="dropdown-item" {{action 'addIncludedEntity' entity}}>{{pluralize entity.name}}</button>
+                {{/ddm.item}}
+              {{/each}}
+            {{/dd.menu}}
+          {{/bs-dropdown}}
+        {{/if}}
+      {{/unless}}
+    </td>
+    <td>
+      {{fa-icon 'close' click=(action 'destroyRecord') class='cursor-pointer'}}
+    </td>
+  {{/with}}
+
+{{/if}}

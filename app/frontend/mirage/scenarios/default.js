@@ -21,6 +21,7 @@ export default function(server) {
 
   server.create('action', { name: 'Read an account',   requestType: 'get_single', contract, entity: accountEntity });
   server.create('action', { name: 'Read all accounts', requestType: 'get_collection', contract, entity: accountEntity });
+  server.create('action', { name: 'Read a site', requestType: 'get_single', contract, entity: siteEntity, includedEntities: [ plantEntity ] });
 
   server.create('field', { name: 'name', required: true, entity: accountEntity });
   server.create('field', { name: 'name', required: true, entity: siteEntity });

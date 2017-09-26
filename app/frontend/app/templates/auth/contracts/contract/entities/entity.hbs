@@ -1,7 +1,7 @@
 <h2 class="mb-3">{{fa-icon 'database' class='mr-4'}}
-{{#with (changeset model EntityValidations skipValidate=true) as |c|}}
-  {{inplace-edit value=c.name save=(action 'submit' c)}}
-{{/with}}
+  {{#with (changeset model EntityValidations skipValidate=true) as |c|}}
+    {{inplace-edit value=c.name save=(action 'submit' c)}}
+  {{/with}}
 </h2>
 
 <h4>Attributes</h4>
@@ -26,8 +26,8 @@
               <input type="checkbox" checked={{c.required}}
                 onchange={{action (pipe (toggle 'required' c) submit)}}/>
             </td>
-            <td>{{input value=c.name focus-out=submit class='form-control'}}</td>
-            <td>{{input value=c.fieldType focus-out=submit class='form-control'}}</td>
+            <td>{{input value=c.name focus-out=submit class='form-control form-control-sm'}}</td>
+            <td>{{input value=c.fieldType focus-out=submit class='form-control form-control-sm'}}</td>
           {{/with}}
         {{/with}}
         <td>{{fa-icon 'close' click=(action 'destroyRecord' field) class='cursor-pointer'}}</td>
@@ -43,11 +43,11 @@
             onchange={{action (pipe (toggle 'required' c) submit)}}/>
         </td>
         <td>{{input value=(mut (get c 'name'))
-                    class='form-control'
+                    class='form-control form-control-sm'
                     focus-out=submit
                     placeholder='Enter field name...' autofocus=true}}</td>
         <td>{{input value=(mut (get c 'fieldType'))
-                    class='form-control'
+                    class='form-control form-control-sm'
                     focus-out=submit
                     placeholder='Enter type...'}}</td>
       {{/with}}
@@ -67,6 +67,7 @@
     <th width="12%">Required</th>
     <th width="40%">Cardinality</th>
     <th>Entity</th>
+    <th>Name</th>
     <th width="8%">&nbsp;</th>
   </tr>
   </thead>
@@ -90,7 +91,7 @@
         </td>
         <td>
           {{#x-select value=c.cardinality
-                      action=(pipe (action (mut c.cardinality)) submit) class="custom-select w-100" as |xs|}}
+                      action=(pipe (action (mut c.cardinality)) submit) class="form-control form-control-sm" as |xs|}}
             {{#xs.option value=null}}Please select{{/xs.option}}
             {{#each cardinalityOptions as |e|}}
               {{#xs.option value=e.value}}{{e.name}}{{/xs.option}}
@@ -99,7 +100,7 @@
         </td>
         <td>
           {{#x-select value=c.dependentEntity
-                      action=(pipe (action (mut c.dependentEntity)) submit) class="custom-select w-100" as |xs|}}
+                      action=(pipe (action (mut c.dependentEntity)) submit) class="form-control form-control-sm" as |xs|}}
             {{#xs.option value=null}}Please select{{/xs.option}}
             {{#each dependentEntityOptions as |e|}}
               {{#xs.option value=e}}
@@ -112,6 +113,7 @@
             {{/each}}
           {{/x-select}}
         </td>
+
       {{/with}}
       <td>&nbsp;</td>
 
@@ -128,23 +130,23 @@
   <tr>
     <th>Type</th>
     <th>Name</th>
+    <th>Included entities</th>
     <th></th>
   </tr>
   </thead>
   <tbody>
   {{#each model.actions as |a|}}
-    <tr>
-      <td>{{humanize a.requestType}}</td>
-      <td>{{a.name}}</td>
-      <td>{{fa-icon 'close' click=(action 'destroyRecord' a) class='cursor-pointer'}}</td>
-    </tr>
+    {{action-row record=a
+                 allRelationships=model.relationships
+                 destroyRecord=(action 'destroyRecord' a)
+                 submit=(action 'submit')}}
   {{/each}}
 
   {{#with (changeset newAction ActionValidations skipValidate=true) as |c|}}
     {{#with (action 'submitNewAction' c) as |submit|}}
       <td>
         {{#x-select value=c.requestType
-                    action=(pipe (action (mut c.requestType)) submit) class="custom-select w-100" as |xs|}}
+                    action=(pipe (action (mut c.requestType)) submit) class="form-control form-control-sm" as |xs|}}
           {{#xs.option value=null}}Please select{{/xs.option}}
           {{#xs.option value='get_single'}}Get single{{/xs.option}}
           {{#xs.option value='get_collection'}}Get collection{{/xs.option}}
@@ -155,7 +157,7 @@
       </td>
       <td>
         {{input value=(mut (get c 'name'))
-                class='form-control'
+                class='form-control form-control-sm'
                 focus-out=submit
                 placeholder='Enter action name...' autofocus=true}}
       </td>

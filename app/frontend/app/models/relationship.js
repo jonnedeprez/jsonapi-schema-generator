@@ -9,6 +9,8 @@ export default DS.Model.extend({
 
   cardinality: DS.attr('string'),
 
+  name: DS.attr('string'),
+
   entity: DS.belongsTo('entity', { inverse: 'relationships' }),
   dependentEntity: DS.belongsTo('entity', { inverse: 'sourceRelationships' }),
 
