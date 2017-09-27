@@ -145,18 +145,17 @@ class JsonSchemaBuilder
 
   def with_included_entities(entities)
     @included_models = entities
-    define_any_resource
+
+    references = entities.map { |entity| {'$ref': define_resource(entity, true)} }
+
     @json[:properties][:included] = {
         type: 'array',
-        items: { '$ref': "#/definitions/any_resource" },
+        items: {
+            oneOf: references
+        },
         uniqueItems: true
     }
 
-    self
-  end
-
-  def with_related_entities(entities)
-    @related_entities = entities
     self
   end
 

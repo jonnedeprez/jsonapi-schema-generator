@@ -6,9 +6,11 @@
       {{/link-to}}
 
       {{#each model as |contract|}}
-        {{#link-to "auth.contracts.contract" contract class='list-group-item list-group-item-action'}}
-          {{contract.client}} to {{contract.server}}
-        {{/link-to}}
+        {{#unless contract.isNew}}
+          {{#link-to "auth.contracts.contract" contract class='list-group-item list-group-item-action'}}
+            {{contract.client}} to {{contract.server}}
+          {{/link-to}}
+        {{/unless}}
       {{/each}}
      </div>
   </div>

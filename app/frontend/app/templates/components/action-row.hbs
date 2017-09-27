@@ -42,6 +42,12 @@
       {{/unless}}
     </td>
     <td>
+      {{#copy-button clipboardText=url class='btn btn-link btn-sm cursor-pointer' success=(action 'showCopiedToClipboardMessage')}}
+        {{fa-icon 'external-link'}}
+        {{bs-tooltip title="A link was copied to the clipboard"
+                     triggerEvents=''
+                     visible=copiedToClipboard}}
+      {{/copy-button}}
       {{fa-icon 'close' click=(action 'destroyRecord') class='cursor-pointer'}}
     </td>
   {{/with}}

@@ -1,10 +1,9 @@
 import Ember from 'ember';
-
 import lookupValidator from 'ember-changeset-validations';
 import Changeset from 'ember-changeset';
 import { ActionValidations } from 'frontend/validations';
 
-const { isArray, computed, computed: { mapBy, uniq, sort } } = Ember;
+const { isArray, computed, computed: { mapBy, uniq, sort }, run } = Ember;
 
 export default Ember.Component.extend({
 
@@ -38,6 +37,18 @@ export default Ember.Component.extend({
     return new Changeset(record, lookupValidator(ActionValidations), ActionValidations)
   }),
 
+  copiedToClipboard: false,
+
+  url: computed('record.{name,requestType}', 'record.contract.content.{server,client}',  function () {
+    const
+      action = this.get('record'),
+      clientName = action.get('contract.content.client'),
+      serverName = action.get('contract.content.server'),
+      host = window.location.href.split('/').slice(0, 3).join('/');
+
+    return `${host}/jsonspec/response?client=${clientName}&server=${serverName}&action_name=${action.get('name')}&status_code=200`;
+  }),
+
   actions: {
     destroyRecord() {
       this.sendAction('destroyRecord', this.get('record'));
@@ -53,6 +64,10 @@ export default Ember.Component.extend({
     },
     removeIncludedEntity(entity) {
       (this.get('c.includedEntities') || []).removeObject(entity);
+    },
+    showCopiedToClipboardMessage() {
+      this.set('copiedToClipboard', true);
+      run.later(this, () => this.set('copiedToClipboard', false), 3000);
     }
   }
 

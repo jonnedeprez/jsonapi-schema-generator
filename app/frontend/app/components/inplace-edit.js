@@ -15,7 +15,7 @@ export default Ember.Component.extend({
   isEditingChanged: observer('isEditing', function() {
     if (this.get('isEditing')) {
       run.scheduleOnce('render', () => {
-        this.$('.form-control').focus();
+        this.$('.form-control').get(0).select();
       });
     }
   }),

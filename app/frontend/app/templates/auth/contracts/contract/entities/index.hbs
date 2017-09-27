@@ -9,7 +9,7 @@
       </div>
       <div class="card-block">
         {{#if entity.belongsToRelationships}}
-          <p>Belongs to</p>
+          <p class="small">Belongs to</p>
           <ul>
             {{#each entity.belongsToRelationships as |relationship|}}
               <li>
@@ -25,7 +25,7 @@
 
 
         {{#if entity.hasManyRelationships}}
-          <p>Has many</p>
+          <p class="small">Has many</p>
           <ul>
             {{#each entity.hasManyRelationships as |relationship|}}
               <li>

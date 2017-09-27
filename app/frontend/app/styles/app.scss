@@ -6,7 +6,15 @@
 
 .entity-card {
   width: 30%;
-  height: 250px;
+  height: 300px;
+
+  .card-block {
+    overflow-y: hidden;
+  }
+}
+
+.copy-btn.btn-link {
+  color: inherit
 }
 
 

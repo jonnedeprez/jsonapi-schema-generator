@@ -27,11 +27,11 @@ class Api::JsonSpecController < ApplicationController
 
   def request_schema
     entity = @action.entity
-    included_entities = @action.entities
+    included_entities = @action.included_entities.to_ary
+    action_name = params.require(:action_name)
     builder = JsonSchemaBuilder.new(@action.request_type.to_sym, :request)
-                  .with_title('JSON API Schema for a request body')
+                  .with_title("JSON API Schema for #{action_name} request body")
                   .for_entity(entity)
-                  .with_related_entities(included_entities)
                   .with_included_entities(included_entities)
 
     render json: builder.json
@@ -39,17 +39,15 @@ class Api::JsonSpecController < ApplicationController
 
   def response_schema
     entity = @action.entity
-    # included_entities = @action.entities
+    included_entities = @action.included_entities.to_ary
     status_code = params.require(:status_code).to_i
     action_name = params.require(:action_name)
     builder = JsonSchemaBuilder.new(@action.request_type.to_sym, :response, status_code)
                   .with_title("JSON API Schema for #{action_name}, status code #{status_code}")
                   .for_entity(entity)
+                  .with_included_entities(included_entities)
                   # .with_description("url_regex: #{@action.url_regex}")
-
-
                   # .with_related_entities(included_entities)
-                  # .with_included_entities(included_entities)
 
     render json: builder.json
   end
