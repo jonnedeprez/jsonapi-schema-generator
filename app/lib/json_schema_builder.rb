@@ -246,7 +246,9 @@ class JsonSchemaBuilder
         additionalProperties: false
     }
 
-    @json[:definitions][reference][:required] = entity.fields.required.map {|f| f.name} if entity.fields.required
+    if entity.fields.required.any?
+      @json[:definitions][reference][:required] = entity.fields.required.map {|f| f.name}
+    end
 
     "#/definitions/#{reference}"
   end
