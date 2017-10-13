@@ -136,10 +136,14 @@
   </thead>
   <tbody>
   {{#each model.actions as |a|}}
-    {{action-row record=a
-                 allRelationships=model.relationships
-                 destroyRecord=(action 'destroyRecord' a)
-                 submit=(action 'submit')}}
+
+    {{#unless a.isDeleted}}
+      {{action-row record=a
+                   allRelationships=model.relationships
+                   destroyRecord=(action 'destroyRecord' a)
+                   submit=(action 'submit')}}
+    {{/unless}}
+
   {{/each}}
 
   {{#with (changeset newAction ActionValidations skipValidate=true) as |c|}}
