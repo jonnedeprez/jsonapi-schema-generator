@@ -288,7 +288,7 @@ class JsonSchemaBuilder
         additionalProperties: false
     }
 
-    if entity.relationships.required
+    if entity.relationships.required.any?
       @json[:definitions][reference][:required] = entity.relationships.required.map {|r| r.hyphenized_name}
     end
 
