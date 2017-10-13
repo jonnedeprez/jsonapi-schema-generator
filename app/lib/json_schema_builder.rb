@@ -13,7 +13,7 @@ class JsonSchemaBuilder
   # create POST 204 Created with not response                      x
   # create POST 403 Forbidden                                      x                    ?
   # create POST 400 Error                                          x                    x
-  # craete POST 500 Error                                          x                    x
+  # create POST 500 Error                                          x                    x
   #
   # update PATCH/PUT 200 Updated include record in response        x                    x
   # update PATCH/PUT 204 Created with no response                  x
