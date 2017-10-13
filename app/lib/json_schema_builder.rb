@@ -148,13 +148,15 @@ class JsonSchemaBuilder
 
     references = entities.map { |entity| {'$ref': define_resource(entity, true)} }
 
-    @json[:properties][:included] = {
-        type: 'array',
-        items: {
-            oneOf: references
-        },
-        uniqueItems: true
-    }
+    if references && references.length > 0
+      json[:properties][:included] = {
+          type: 'array',
+          items: {
+              oneOf: references
+          },
+          uniqueItems: true
+      }
+    end
 
     self
   end
